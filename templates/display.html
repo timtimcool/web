@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Content</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa; /* 背景顏色 */
+            color: #343a40; /* 文字顏色 */
+        }
+        h1 {
+            text-align: center; /* 標題置中 */
+            color: #065c1f; /* 標題顏色 */
+            margin-bottom: 20px; /* 標題下方的間距 */
+        }
+        ul {
+            list-style-type: none; /* 去掉列表前的圓點 */
+            padding: 0; /* 去掉內邊距 */
+        }
+        li {
+            background-color: #ffffff; /* 列表項目背景 */
+            border: 1px solid #ced4da; /* 邊框顏色 */
+            border-radius: 5px; /* 圓角 */
+            padding: 15px; /* 內邊距 */
+            margin: 10px 0; /* 列表項目間距 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 陰影 */
+        }
+        strong {
+            color: #495057; /* 標題顏色 */
+        }
+        pre {
+            background-color: #f4f4f4; /* 預格式化文本背景 */
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap; /* 允許自動換行 */
+            word-wrap: break-word; /* 允許長單詞換行 */
+        }
+        a {
+            display: block;
+            text-align: center; /* 按鈕置中 */
+            margin-top: 20px; /* 上方間距 */
+            padding: 10px 15px;
+            background-color: #075f23; /* 按鈕顏色 */
+            color: white; /* 按鈕文字顏色 */
+            border-radius: 5px; /* 圓角 */
+            text-decoration: none; /* 去掉下劃線 */
+            transition: background-color 0.3s; /* 變化效果 */
+        }
+        a:hover {
+            background-color: #0056b3; /* 懸停顏色 */
+        }
+    </style>
+</head>
+<body>
+    <h1>提取的摘要和資訊</h1>
+    <ul>
+        {% for summary in summaries %}
+        <li>
+            <strong>標題:</strong> {{ summary.title }}<br>
+            <strong>摘要:</strong> {{ summary.summary_text }}<br>
+            <strong>判決結果:</strong> {{ summary.判決結果 }}<br>
+            <strong>引用法條:</strong> {{ summary.引用法條 }}<br>
+            <strong>賠償金額:</strong> {{ summary.賠償金額 }}<br>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <a href="/">返回</a>
+</body>
+</html>
