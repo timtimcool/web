@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import json
 import re
+import civil_law
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './uploads'
@@ -33,7 +34,7 @@ def upload_file():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
 
-        # 讀取 JSON 檔案並印出內容
+        # 讀取 JSON 檔案
         with open(filepath, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
@@ -56,6 +57,14 @@ def process_data(data):
         # 在這裡添加你要提取的資訊
     extracted_info = extract_info(full_text)
 
+    matched_laws = match_law_from_title(title)
+
+    # 更新引用法條部分
+    if matched_laws:
+        extracted_info['引用法條'] = extracted_info['引用法條'] or ""  # 確保有值
+        extracted_info['引用法條'] += "，".join(matched_laws)
+
+    
        # 美化摘要格式
     summary = {
         'title': title,
@@ -64,8 +73,24 @@ def process_data(data):
         '引用法條': extracted_info['引用法條'],
         '賠償金額': extracted_info['賠償金額'],
     }
+    #summary = f"標題: {title}\n摘要: {summary_text}"
+    
     summaries.append(summary)
     return summaries
+
+law_keywords = {
+    "損害賠償": ["第184條", "第185條"],  # 損害賠償相關條款
+    "過失": ["第188條"],  # 過失相關條款
+    "利息": ["第203條"],  # 利息相關條款
+    # 可以根據需要擴充更多關鍵字和條文
+}
+
+def match_law_from_title(title):
+    matched_laws = []
+    for keyword, laws in law_keywords.items():
+        if re.search(keyword, title):
+            matched_laws.extend(laws)
+    return matched_laws
 
 def clean_summary_text(text):
     text = text.strip()  # 去除前後空格
